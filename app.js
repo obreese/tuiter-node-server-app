@@ -10,7 +10,8 @@ import UserController from "./controllers/users/users-controller.js";
 import mongoose from "mongoose";
 
 mongoose.connect(
-  process.env.MONGODB_CONNECTION_STRING || "mongodb://localhost:27017/tuiter"
+  // process.env.MONGODB_CONNECTION_STRING || "mongodb://localhost:27017/tuiter"
+  "mongodb+srv://obreese:eNkU8kl54CJB3RpJ@cluster0.7bnsyuc.mongodb.net/tuiter?retryWrites=true&w=majority"
 );
 
 // create instance of express

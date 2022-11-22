@@ -1,4 +1,34 @@
 import * as tuitsDao from "./tuits-dao.js";
+import posts from './tuits.js'
+let tuits = posts;
+
+const createTuita8 = (req, res) => {
+  const newTuit = req.body;
+  newTuit._id = new Date().getTime() + "";
+  newTuit.likes = 0;
+  newTuit.liked = false;
+  tuits.push(newTuit);
+  res.json(newTuit);
+};
+
+const findTuitsa8 = (req, res) => {
+  res.json(tuits);
+};
+const updateTuita8 = (req, res) => {
+  const tuitdIdToUpdate = req.params.tid;
+  const updates = req.body;
+  const tuitIndex = tuits.findIndex((t) => {
+    return t._id == tuitdIdToUpdate;
+  });
+  tuits[tuitIndex] = { ...tuits[tuitIndex], ...updates };
+  res.sendStatus(200);
+};
+
+const deleteTuita8 = (req, res) => {
+  const tuitdIdToDelete = req.params.tid;
+  tuits = tuits.filter((t) => t._id != tuitdIdToDelete);
+  res.sendStatus(200);
+};
 
 const createTuit = async (req, res) => {
   const newTuit = req.body;
@@ -28,6 +58,10 @@ const deleteTuit = async (req, res) => {
 };
 
 export default (app) => {
+  app.post("/api/a8/tuits", createTuita8);
+  app.get("/api/a8/tuits", findTuitsa8);
+  app.put("/api/a8/tuits/:tid", updateTuita8);
+  app.delete("/api/a8/tuits/:tid", deleteTuita8);
   app.post("/api/tuits", createTuit);
   app.get("/api/tuits", findTuits);
   app.put("/api/tuits/:tid", updateTuit);

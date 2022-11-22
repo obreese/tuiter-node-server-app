@@ -1,32 +1,30 @@
-import posts from "./tuits.js";
-let tuits = posts;
+import * as tuitsDao from "./tuits-dao.js";
 
-const createTuit = (req, res) => {
+const createTuit = async (req, res) => {
   const newTuit = req.body;
-  newTuit._id = new Date().getTime() + "";
   newTuit.likes = 0;
   newTuit.liked = false;
-  tuits.push(newTuit);
-  res.json(newTuit);
+  newTuit.dislikes = 0;
+  newTuit.disliked = false; // todo when manually inserting data remember dislikes
+  const insertedTuit = await tuitsDao.createTuit(newTuit);
+  res.json(insertedTuit);
 };
 
-const findTuits = (req, res) => {
+const findTuits = async (req, res) => {
+  const tuits = await tuitsDao.findTuits();
   res.json(tuits);
 };
-const updateTuit = (req, res) => {
+const updateTuit = async (req, res) => {
   const tuitdIdToUpdate = req.params.tid;
   const updates = req.body;
-  const tuitIndex = tuits.findIndex((t) => {
-    return t._id == tuitdIdToUpdate;
-  });
-  tuits[tuitIndex] = { ...tuits[tuitIndex], ...updates };
-  res.sendStatus(200);
+  const status = await tuitsDao.updateTuit(tuitIdToUpdate, updates);
+  res.sendStatus(status);
 };
 
-const deleteTuit = (req, res) => {
+const deleteTuit = async (req, res) => {
   const tuitdIdToDelete = req.params.tid;
-  tuits = tuits.filter((t) => t._id != tuitdIdToDelete);
-  res.sendStatus(200);
+  const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
+  // res.sendStatus(status); // todo fix
 };
 
 export default (app) => {

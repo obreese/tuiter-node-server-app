@@ -7,6 +7,11 @@ import cors from "cors";
 import HelloController from "./controllers/hello-controller.js";
 import TuitsController from "./controllers/tuits/tuits-controller.js";
 import UserController from "./controllers/users/users-controller.js";
+import mongoose from "mongoose";
+
+mongoose.connect(
+  process.env.MONGODB_CONNECTION_STRING || "mongodb://localhost:27017/tuiter"
+);
 
 // create instance of express
 const app = express();

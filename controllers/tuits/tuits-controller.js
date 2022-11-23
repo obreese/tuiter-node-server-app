@@ -7,6 +7,8 @@ const createTuita8 = (req, res) => {
   newTuit._id = new Date().getTime() + "";
   newTuit.likes = 0;
   newTuit.liked = false;
+  newTuit.dislikes = 0;
+  newTuit.disliked = false;
   tuits.push(newTuit);
   res.json(newTuit);
 };
@@ -35,7 +37,7 @@ const createTuit = async (req, res) => {
   newTuit.likes = 0;
   newTuit.liked = false;
   newTuit.dislikes = 0;
-  newTuit.disliked = false; // todo when manually inserting data remember dislikes
+  newTuit.disliked = false;
   const insertedTuit = await tuitsDao.createTuit(newTuit);
   res.json(insertedTuit);
 };
@@ -54,7 +56,7 @@ const updateTuit = async (req, res) => {
 const deleteTuit = async (req, res) => {
   const tuitdIdToDelete = req.params.tid;
   const status = await tuitsDao.deleteTuit(tuitdIdToDelete);
-  // res.sendStatus(status); // todo fix
+  res.sendStatus(status);
 };
 
 export default (app) => {
